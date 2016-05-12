@@ -26,7 +26,12 @@ void filegeneration(char *filename)
 			fputc(ch, f);
 		}
 		else
+		{
+			ch = ' ';
+			fputc(ch, f);
 			break;
+		}
+
 
 	} while (true);
 	printf("\n");
@@ -48,7 +53,7 @@ void output(char *filename)
 }
 void findword(char *filename, char *filename2, char ch)
 {
-	char l, str[10000] = { 0 }, str1[10000] = { 0 }, d[1] = { 0 }, *s;
+	char l[100], str[101] = { 0 }, str1[10000] = { 0 }, d[1] = { 0 }, *s, *delimiter = " .,!?", *ptr;
 	d[0] = ch;
 	FILE *f = fopen(filename, "rt");
 	if (f != NULL)
@@ -57,11 +62,18 @@ void findword(char *filename, char *filename2, char ch)
 		int i = 0;
 
 		while (!feof(f)) {
-			fscanf(f, "%c", &l);
-			str[i++] = l;
+			fgets(str, 100, f);
+			ptr = strtok(str, delimiter);
+			while (ptr != NULL)
+			{
+				if (ptr[0] == d[0])
+				{
+					strcat(str1, ptr);
+					strcat(str1, " ");
+				}
+				ptr = strtok(nullptr, delimiter);
+			}
 		}
-		str[i] = '\0';
-		puts(str);
 	}
 	else
 	{
@@ -69,20 +81,6 @@ void findword(char *filename, char *filename2, char ch)
 		_getch();
 		exit(EXIT_FAILURE);
 	}
-
-	char *delimiter = " .,!?";
-	char *ptr;
-	ptr = strtok(str, delimiter);
-	while (ptr != NULL)
-	{
-		if (ptr[0] == d[0])
-		{
-			strcat(str1, ptr);
-			strcat(str1, " ");
-		}
-		ptr = strtok(nullptr, delimiter);
-	}
-	puts(str1);
 	fclose(f);
 
 	FILE *fl = fopen(filename2, "wt");
@@ -131,7 +129,11 @@ void rewrite(char *filename)
 				fputc(ch, f);
 			}
 			else
+			{
+				ch = ' ';
+				fputc(ch, f);
 				break;
+			}
 
 		} while (true);
 		printf("\n");

@@ -22,11 +22,13 @@ int main()
 	puts("Add?");
 	puts("Enter y|n:");
 	char c = _getch();
+	if (c == 'Y')c = 'y';
 	while (c == 'y') {
 		add(filename, filename2, ch);
 		puts("Add?");
 		puts("Enter y|n:");
 		c = _getch();
+		if (c == 'Y')c = 'y';
 	}
 	puts("\n");
 	_getch();
